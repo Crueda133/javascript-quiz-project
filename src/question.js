@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class Question {
     // YOUR CODE HERE:
     
@@ -17,3 +18,5 @@ this.choices.splice(randomIndex, 0, curentChoice);
   }
     }
 }
+=======
+>>>>>>> c35f1dd (error)
