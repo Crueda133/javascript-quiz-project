@@ -23,9 +23,8 @@ class Quiz {
     }
   }
   checkAnswer(answer) {
-    const currentQuestion = this.questions[this.currentQuestionIndex];
-    if (answer === currentQuestion.answer) {
-      this.correctAnswers++;
+    if (answer === this.getQuestion().answer) {
+      this.correctAnswers += 1;
     }
   }
   hasEnded() {
