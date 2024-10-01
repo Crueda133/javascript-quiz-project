@@ -58,11 +58,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let currentQuestionIndex = 0;
   let score = 0;
-  const quizDuration = 120; // 120 seconds (2 minutes)
+  let quizDuration = 120; // 120 seconds (2 minutes)
 
   /************  QUIZ INSTANCE  ************/
   // Create a new Quiz instance object
-  const quiz = new Quiz(questions, quizDuration, quizDuration);
+  let quiz = new Quiz(questions, quizDuration, quizDuration);
   // Shuffle the quiz questions
   quiz.shuffleQuestions();
 
@@ -82,16 +82,34 @@ document.addEventListener("DOMContentLoaded", () => {
   nextButton.addEventListener("click", nextButtonHandler);
 
   restartButton.addEventListener("click", () => {
-    quiz.currentQuestionIndex = 0;
-    quiz.correctAnswers = 0;
-    quiz.timeRemaining = quizDuration;
-    quiz.shuffleQuestions();
-    quizView.style.display = "block";
-    endView.style.display = "none";
-    showQuestion();
+    resetQuiz();
+    console.log("restartButton");
   });
 
   /************  FUNCTIONS  ************/
+  function resetQuiz() {
+    // restart quiz
+    // quiz = new Quiz(questions, quizDuration, quizDuration);
+    // score = 0;
+    // quizDuration = 120; // 120 seconds (2 minutes)
+    // showQuestion();
+
+    window.location.reload();
+  }
+
+  // Start the quiz timer
+  function startTimer() {
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+      if (quiz.timeRemaining <= 0) {
+        clearInterval(timerInterval);
+        showResults();
+      } else {
+        quiz.timeRemaining -= 1;
+        updateTimerDisplay();
+      }
+    }, 1000);
+  }
 
   // Updates the timer display in minutes and seconds
   function updateTimerDisplay() {
@@ -106,6 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function showQuestion() {
     // If the quiz has ended, show the results
     if (quiz.hasEnded()) {
+      clearInterval(timerInterval);
       showResults();
       return;
     }
@@ -138,6 +157,10 @@ document.addEventListener("DOMContentLoaded", () => {
     questionCount.innerText = `Question ${quiz.currentQuestionIndex + 1} of ${
       questions.length
     }`;
+
+    if (quiz.currentQuestionIndex === 0) {
+      startTimer();
+    }
   }
   // Handles the click on the next button
   function nextButtonHandler() {
