@@ -23,8 +23,9 @@ class Quiz {
     }
   }
   checkAnswer(answer) {
-    if (answer === "Germany");
-    this.correctAnswers += 1;
+    if (answer === this.getQuestion().answer) {
+      this.correctAnswers += 1;
+    }
   }
   hasEnded() {
     if (this.currentQuestionIndex < this.questions.length) return false;
