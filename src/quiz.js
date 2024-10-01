@@ -23,13 +23,16 @@ class Quiz {
     }
   }
   checkAnswer(answer) {
-    if (answer === "Germany");
-    this.correctAnswers += 1;
+    const currentQuestion = this.questions[this.currentQuestionIndex];
+    if (answer === currentQuestion.answer) {
+      this.correctAnswers++;
+    }
   }
   hasEnded() {
-    if (this.currentQuestionIndex < this.questions.length) return false;
-    else if (this.currentQuestionIndex === this.questions.length) return true;
-    else return false;
+    if (this.currentQuestionIndex === this.questions.length) {
+      return true;
+    }
+    return false;
   }
 
   //filterQuestionsByDifficulty Method

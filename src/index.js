@@ -44,10 +44,22 @@ document.addEventListener("DOMContentLoaded", () => {
       3
     ),
     new Question(
-      "What is the name of the teacher in your IT school?",
+      "What is the name of the teacher in Ironhack school?",
       ["Max", "Tommy", "Joshua", "Sandra"],
       "Joshua",
       2
+    ),
+    new Question(
+      "What is Joshua's dog name?",
+      ["Buddy", "Tom", "Ragnar", "Babush"],
+      "Ragnar",
+      2
+    ),
+    new Question(
+      "What is the capital of Great Britain?",
+      ["Berlin", "London", "Paris", "Kyiv"],
+      "London",
+      1
     ),
     // Add more questions here
   ];
@@ -131,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const progressPercentage =
       ((quiz.currentQuestionIndex + 1) / questions.length) * 100;
     progressBar.style.width = `${progressPercentage}%`;
-    progressBar.style.width = `65%`; // This value is hardcoded as a placeholder
+    progressBar.style.width = `10%`; // This value is hardcoded as a placeholder
 
     // 3. Update the question count text
     // Update the question count (div#questionCount) show the current question out of total questions
@@ -156,21 +168,37 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function nextButtonHandler() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      loadQuestion();
+      nextButton.style.display = "none";
+    } else {
+      showResults();
+    }
+
     let selectedAnswer; // A variable to store the selected answer value
 
     // YOUR CODE HERE:
     //
     // 1. Get all the choice elements. You can use the `document.querySelectorAll()` method.
+    const choice = document.querySelectorAll("li");
 
     // 2. Loop through all the choice elements and check which one is selected
     // Hint: Radio input elements have a property `.checked` (e.g., `element.checked`).
     //  When a radio input gets selected the `.checked` property will be set to true.
     //  You can use check which choice was selected by checking if the `.checked` property is true.
+    choices.forEach((currentChoice) => {
+      const currAnswer = currentChoice.querySelector("input");
+      if (currAnswer.checked) selectedAnswer = currAnswer.value;
+    });
 
     // 3. If an answer is selected (`selectedAnswer`), check if it is correct and move to the next question
     // Check if selected answer is correct by calling the quiz method `checkAnswer()` with the selected answer.
     // Move to the next question by calling the quiz method `moveToNextQuestion()`.
     // Show the next question by calling the function `showQuestion()`.
+    quiz.checkAnswer(selectedAnswer);
+    quiz.moveToNextQuestion();
+    showQuestion();
   }
 
   function showResults() {
